@@ -1,7 +1,9 @@
+import MainReactflow from "@/components/MainReactflow";
+import SidebarNodesPanel from "@/components/SidebarNodesPanel";
 import { ThemeProvider } from "@/components/theme/theme-provider";
-import MainReactflow from "./components/MainReactflow";
-import SidebarNodesPanel from "./components/SidebarNodesPanel";
-import Topbar from "./components/Topbar";
+import Topbar from "@/components/Topbar";
+import { Toaster } from "sonner";
+
 import { useApp } from "./useApp";
 
 function App() {
@@ -13,6 +15,7 @@ function App() {
         <MainReactflow {...appState} />
         <SidebarNodesPanel {...appState} />
       </div>
+      <Toaster richColors closeButton />
     </ThemeProvider>
   );
 }

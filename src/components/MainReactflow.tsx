@@ -13,6 +13,7 @@ const MainReactflow = ({
   return (
     <div className="h-[90vh] w-4/5">
       <ReactFlow
+        colorMode={"light"}
         className="border"
         id="reactflow"
         nodes={nodes}
@@ -23,9 +24,9 @@ const MainReactflow = ({
         nodeTypes={nodeTypes}
         fitView
         nodeOrigin={[0.5, 0]}
-        panOnScroll
-        zoomOnScroll={false}
-        panOnDrag={false}
+        // panOnScroll
+        // zoomOnScroll={false}
+        // panOnDrag={false}
       >
         <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
       </ReactFlow>

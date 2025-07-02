@@ -91,14 +91,16 @@ const SidebarNodesPanel = ({
               placeholder="Type your message here..."
               autoFocus
               required
-              value={nodeData as string}
+              value={nodeData}
               onChange={(e) => setNodeData(e.target.value)}
             />
             <div className="flex justify-end">
               <Button
                 disabled={nodeData.trim() === ""}
                 className="w-10 hover:cursor-pointer"
-                onClick={() => nodeData.trim() !== "" && addNode(nodeData)}
+                onClick={() =>
+                  nodeData.trim() !== "" && addNode(nodeData, "messageNode")
+                }
               >
                 <Check />
               </Button>

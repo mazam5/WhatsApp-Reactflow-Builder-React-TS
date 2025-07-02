@@ -1,14 +1,8 @@
-import {
-  addEdge,
-  useEdgesState,
-  useNodesState,
-  type Node,
-  type Edge,
-  type OnConnect,
-  type NodeTypes,
-} from "@xyflow/react";
+import { addEdge, useEdgesState, useNodesState } from "@xyflow/react";
+import type { Node, Edge, OnConnect, NodeTypes } from "@xyflow/react";
 import React from "react";
 import { toast } from "sonner";
+import MessageNode from "./components/MessageNode";
 
 export const useApp = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
@@ -21,14 +15,20 @@ export const useApp = () => {
     (params) => setEdges((eds) => addEdge(params, eds)),
     [setEdges],
   );
-  const nodeTypes: NodeTypes = {};
 
-  const addNode = (data: string) => {
-    const { newNode, newEdge } = createNodeAndEdge(id, nodes, data);
+  const nodeTypes: NodeTypes = {
+    messageNode: MessageNode,
+  };
+
+  const addNode = (data: string, type: string) => {
+    console.log("Adding node with data:", data);
+    const { newNode, newEdge } = createNodeAndEdge(id, nodes, data, type);
+    console.log("New Node created:", newNode);
+
     setId((prev) => prev + 1);
     setNodes((prev) => [...prev, newNode]);
     if (newEdge) setEdges((prev) => [...prev, newEdge]);
-    toast.success(`Node added successfully!`);
+    toast.success(`Node of type "${type}" added successfully!`);
     setNodeData("");
     setShowSettings(false);
   };
@@ -46,7 +46,6 @@ export const useApp = () => {
     onNodesChange,
     onEdgesChange,
     showSettingsForAddNode,
-
     showSettings,
     nodeTypes,
     setNodeData,
@@ -56,27 +55,17 @@ export const createNodeAndEdge = (
   id: number,
   nodes: Node[],
   data: string,
+  type: string,
 ): { newNode: Node; newEdge?: Edge } => {
   const newNodeId = `node_${id}`;
-  const position = { x: 700, y: nodes.length * 50 };
+  const position = { x: 100, y: nodes.length * 50 };
 
   const newNode: Node = {
     id: newNodeId,
+    type,
     position,
-    data: { label: data },
+    data: { message: data },
   };
 
-  let newEdge: Edge | undefined;
-  if (nodes.length > 0) {
-    const lastNode = nodes[nodes.length - 1];
-    newEdge = {
-      id: crypto.randomUUID(),
-      source: lastNode.id,
-      target: newNodeId,
-      animated: true,
-      style: { stroke: "#888" },
-    };
-  }
-
-  return { newNode, newEdge };
+  return { newNode };
 };
