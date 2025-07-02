@@ -115,12 +115,21 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border outline-ring/50 box-border;
   }
   body {
     @apply bg-background text-foreground font-poppins;
   }
   button {
-    @apply border-indigo-500 text-indigo-500 hover:scale-95 hover:border-indigo-300 hover:text-indigo-300;
+    @apply w-32 border-indigo-500 py-6 text-indigo-500 hover:scale-95 hover:border-indigo-300 hover:text-indigo-300;
+  }
+  #topbar button {
+    @apply w-40;
+  }
+  #sidebar #control-flow button {
+    @apply border-amber-500 bg-amber-300 text-amber-500;
+  }
+  #sidebar #conditions button {
+    @apply border-fuchsia-500 bg-fuchsia-300 text-fuchsia-500;
   }
 }
