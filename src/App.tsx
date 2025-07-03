@@ -10,12 +10,12 @@ function App() {
   const appState = useApp();
   return (
     <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
-      <Topbar />
+      <Topbar {...appState} />
       <div id="main" className="flex h-full w-full">
         <MainReactflow {...appState} />
         <SidebarNodesPanel {...appState} />
+        <Toaster richColors position="top-center" />
       </div>
-      <Toaster richColors closeButton />
     </ThemeProvider>
   );
 }

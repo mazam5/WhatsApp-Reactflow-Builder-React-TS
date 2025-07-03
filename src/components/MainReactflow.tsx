@@ -9,13 +9,22 @@ const MainReactflow = ({
   onNodesChange,
   onEdgesChange,
   nodeTypes,
+  showSettingsForAddNode,
 }: ReturnType<typeof useApp>) => {
   return (
     <div className="h-[90vh] w-4/5">
       <ReactFlow
+        id="reactflow"
+        onDragOver={(e) => e.preventDefault()}
+        onDrop={(e) => {
+          e.preventDefault();
+          const nodeType = e.dataTransfer.getData("application/node-type");
+          if (nodeType === "messageNode") {
+            showSettingsForAddNode(); // Show settings panel
+          }
+        }}
         colorMode={"light"}
         className="border"
-        id="reactflow"
         nodes={nodes}
         edges={edges}
         onConnect={onConnect}

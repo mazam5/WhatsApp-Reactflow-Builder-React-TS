@@ -23,10 +23,17 @@ const SidebarNodesPanel = ({
             <p className="text-bold my-2 text-xl uppercase">Actions</p>
             <div className="grid grid-cols-2">
               <Button
-                onClick={() => showSettingsForAddNode()}
-                variant="outline"
                 size="lg"
+                variant="outline"
                 className="flex flex-col hover:cursor-pointer"
+                onClick={() => showSettingsForAddNode()}
+                draggable
+                onDragStart={(e) => {
+                  e.dataTransfer.setData(
+                    "application/node-type",
+                    "messageNode",
+                  );
+                }}
               >
                 <MessageCircleMore />
                 <p className="">Message</p>

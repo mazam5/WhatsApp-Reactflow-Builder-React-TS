@@ -15,6 +15,10 @@ export const useApp = () => {
     (params) => setEdges((eds) => addEdge(params, eds)),
     [setEdges],
   );
+  React.useEffect(() => {
+    console.log(nodes);
+    console.log(edges);
+  }, [nodes, edges]);
 
   const nodeTypes: NodeTypes = {
     messageNode: MessageNode,
@@ -37,6 +41,37 @@ export const useApp = () => {
     setNodeData("");
     setShowSettings(!showSettings);
   };
+  const handleSaveValidate = () => {
+    if (nodes.length === 0) {
+      toast.warning("No nodes found in the flow.");
+      return;
+    }
+
+    if (edges.length === 0) {
+      toast.error("Cannot save: No edges present.");
+      return;
+    }
+
+    const connectedNodeIds = new Set<string>();
+
+    edges.forEach((edge) => {
+      connectedNodeIds.add(edge.source);
+      connectedNodeIds.add(edge.target);
+    });
+
+    const disconnectedNodes = nodes.filter(
+      (node) => !connectedNodeIds.has(node.id),
+    );
+
+    if (disconnectedNodes.length > 0) {
+      toast.error(
+        `Disconnected nodes found: ${disconnectedNodes.map((n) => n.id).join(", ")}`,
+      );
+    } else {
+      toast.success("All nodes are connected. Flow saved successfully!");
+    }
+  };
+
   return {
     nodeData,
     addNode,
@@ -49,6 +84,7 @@ export const useApp = () => {
     showSettings,
     nodeTypes,
     setNodeData,
+    handleSaveValidate,
   };
 };
 export const createNodeAndEdge = (
